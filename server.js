@@ -9,14 +9,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('ping', function (data) {
         socket.broadcast.json.emit('pong', {
             clients: Object.keys(io.sockets.clients()).length,
-            datetime: data
+            data: data
         });
     });
 });
 server.listen(process.env.PORT || 3000);
 
 /*__DATA__
-@@ html
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,14 +24,20 @@ server.listen(process.env.PORT || 3000);
     <script type="text/javascript">
 var start = new Date().getTime();
 var socket = io.connect();
+var ua = window.navigator.userAgent;
 socket.on('pong', function (data) {
-  var delay = new Date().getTime() - data.datetime;
-  console.log('pong: ' + delay + ' ms on ' + data.clients + ' clients');
+  var delay = new Date().getTime() - data.data.datetime;
+  if (data.data.ua === ua) {
+    console.log('pong: ' + delay + ' ms on ' + data.clients + ' clients');
+  }
 });
 socket.on('connect', function () {
   console.log('connect: ' + (new Date().getTime() - start));
   setInterval(function () {
-    socket.emit('ping', new Date().getTime());
+    socket.emit('ping', {
+      datetime: new Date().getTime(),
+      ua: ua
+    });
   }, 1000);
 });
     </script>
