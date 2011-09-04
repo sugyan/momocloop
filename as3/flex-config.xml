@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<flex-config>
+  <compiler>
+    <library-path>
+      <path-element>./lib/rsls</path-element>
+    </library-path>
+  </compiler>
+</flex-config>
