@@ -33,6 +33,9 @@ package {
         private function onRslLoad(e:Event):void {
             var logicClass:Class = viewerLoader.contentLoaderInfo.applicationDomain.getDefinition("tv.ustream.viewer.logic.Logic") as Class;
             viewer = new logicClass();
+            viewer.display.width = this.stage.stageWidth;
+            viewer.display.height = this.stage.stageHeight;
+
             this.addChild(viewer.display);
 
             ExternalInterface.addCallback("sync", onCallSync);

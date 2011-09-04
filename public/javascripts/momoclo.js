@@ -12,6 +12,6 @@ var onFinishAddCallback = function () {
 $(function () {
     swfobject.embedSWF(
         '/swf/player.swf',
-        'player','800', '600', "10.0.0", null, {}, {}, {}
+        'player','480', '360', "10.0.0", null, {}, {}, {}
     );
 });
