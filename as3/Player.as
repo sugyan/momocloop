@@ -2,15 +2,18 @@ package {
     import flash.display.Loader;
     import flash.display.Sprite;
     import flash.events.Event;
+    import flash.external.ExternalInterface;
+    import flash.net.URLRequest;
     import flash.system.ApplicationDomain;
     import flash.system.LoaderContext;
     import flash.system.Security;
-    import flash.net.URLRequest;
 
     import tv.ustream.viewer.logic.Logic;
 
     public class Player extends Sprite {
         private var viewerLoader:Loader;
+        private var recorded:Object;
+        private var viewer:Object;
 
         public function Player() {
             Security.allowDomain("*");
@@ -29,12 +32,18 @@ package {
 
         private function onRslLoad(e:Event):void {
             var logicClass:Class = viewerLoader.contentLoaderInfo.applicationDomain.getDefinition("tv.ustream.viewer.logic.Logic") as Class;
-            var viewer:Object = new logicClass();
+            viewer = new logicClass();
             this.addChild(viewer.display);
 
-            var recorded:Object = viewer.createRecorded('16269528');
-            recorded.seek(0.834);
+            ExternalInterface.addCallback("sync", onCallSync);
+            ExternalInterface.call("onFinishAddCallback");
+        }
 
+        private function onCallSync(obj:Object):void {
+            if (! (recorded && recorded.mediaId === obj.vid)) {
+                recorded = viewer.createRecorded(obj.vid);
+            }
+            recorded.seek(obj.seek);
             viewer.playing = true;
         }
     }
