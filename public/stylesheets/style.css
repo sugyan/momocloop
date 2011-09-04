@@ -23,8 +23,13 @@ div#messages {
 div.message {
     height: 22px;
 }
-div.message span.name {
+div.message span.date {
     color: gray;
+    font-size: small;
+}
+div.message span.name {
+    color: blue;
+    margin-left: 5px;
 }
 div.message span.text {
     margin-left: 5px;
