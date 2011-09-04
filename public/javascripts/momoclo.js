@@ -36,6 +36,9 @@ $(function () {
 
     var socket = io.connect();
     socket.on('comment', prependMessage);
+    socket.on('connection', function (data) {
+        $('#connection').text(data + '人');
+    });
 
     var input = $('#message');
     $('#comments').submit(function (e) {

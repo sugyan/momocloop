@@ -14,8 +14,15 @@ div#left {
 div#comments {
     margin-left: 500px;
 }
+span#connection {
+    margin-left: 5px;
+    color: purple;
+}
 form#comment input[type="text"] {
     width: 250px;
+}
+form#comment input[type="submit"] {
+    margin-left: 5px;
 }
 div#messages {
     margin-top: 10px;
