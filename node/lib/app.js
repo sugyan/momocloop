@@ -35,3 +35,15 @@ app.get('/', function (req, res) {
         title: 'momoclo'
     });
 });
+
+app.get('/api/program', function (req, res) {
+    // FIXME:
+    var length = 2 * 3600 + 36 * 60 + 35;
+    var now = new Date();
+    var start = new Date(2011, 8, 4, 16);
+    var data = {
+        vid: '15776910',
+        seek: (now - start) / 1000 / length
+    };
+    res.end(JSON.stringify(data));
+});
