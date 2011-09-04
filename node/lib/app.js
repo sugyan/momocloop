@@ -2,6 +2,9 @@
  * Module dependencies.
  */
 
+var config = require('./../config/default');
+var Program = require('./program');
+var _ = require('underscore');
 var express = require('express');
 var app = module.exports = express.createServer();
 
@@ -28,6 +31,8 @@ app.configure('production', function () {
     app.use(express.errorHandler());
 });
 
+var program = new Program(config);
+
 // Routes
 
 app.get('/', function (req, res) {
@@ -38,12 +43,11 @@ app.get('/', function (req, res) {
 
 app.get('/api/program', function (req, res) {
     // FIXME:
-    var length = 2 * 3600 + 36 * 60 + 35;
-    var now = new Date();
-    var start = new Date(2011, 8, 4, 16);
-    var data = {
-        vid: '15776910',
-        seek: (now - start) / 1000 / length
-    };
-    res.end(JSON.stringify(data));
+    program.getCurrent(function (err, data) {
+        if (err) { throw err; }
+        var obj = _.clone(data);
+        var now = new Date();
+        obj.seek = (now - obj.start) / obj.length;
+        res.end(JSON.stringify(obj));
+    });
 });

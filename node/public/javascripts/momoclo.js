@@ -1,6 +1,5 @@
 var onFinishAddCallback = function () {
     var player = document.getElementById('player');
-    // FIXME
     $.ajax({
         url: '/api/program',
         dataType: 'json',
