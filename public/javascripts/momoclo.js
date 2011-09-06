@@ -1,4 +1,4 @@
-var onFinishAddCallback = function () {
+var loadStream = function () {
     var player = document.getElementById('player');
     $.ajax({
         url: '/api/program',
@@ -9,6 +9,8 @@ var onFinishAddCallback = function () {
         }
     });
 };
+var onFinishAddCallback, onFinishStream;
+onFinishAddCallback = onFinishStream = loadStream;
 
 $(function () {
     swfobject.embedSWF(

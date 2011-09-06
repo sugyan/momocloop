@@ -45,6 +45,9 @@ package {
         private function onCallSync(obj:Object):void {
             if (! (recorded && recorded.mediaId === obj.vid)) {
                 recorded = viewer.createRecorded(obj.vid);
+                recorded.addEventListener("finish", function (e:Event):void {
+                    ExternalInterface.call("onFinishStream");
+                });
             }
             recorded.seek(obj.seek);
             viewer.playing = true;

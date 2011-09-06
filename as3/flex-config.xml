@@ -4,5 +4,9 @@
     <library-path>
       <path-element>./lib/rsls</path-element>
     </library-path>
+    <source-path>
+      <path-element>./lib</path-element>
+    </source-path>
+    <allow-source-path-overlap>true</allow-source-path-overlap>
   </compiler>
 </flex-config>
