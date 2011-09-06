@@ -27,9 +27,6 @@ form#comment input[type="submit"] {
 div#messages {
     margin-top: 10px;
 }
-div.message {
-    height: 22px;
-}
 div.message span.date {
     color: gray;
     font-size: small;
