@@ -2,11 +2,13 @@ package {
     import flash.display.Loader;
     import flash.display.Sprite;
     import flash.events.Event;
+    import flash.events.TimerEvent;
     import flash.external.ExternalInterface;
     import flash.net.URLRequest;
     import flash.system.ApplicationDomain;
     import flash.system.LoaderContext;
     import flash.system.Security;
+    import flash.utils.Timer;
 
     import tv.ustream.viewer.logic.Logic;
 
@@ -28,6 +30,19 @@ package {
 
             loaderContext.applicationDomain = applicationDomain;
             viewerLoader.load(request, loaderContext);
+
+            var timer:Timer = new Timer(2000);
+            timer.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
+                if (recorded) {
+                    ExternalInterface.call("onInfo", {
+                        vid: recorded.mediaId,
+                        duration: recorded.duration,
+                        progress: recorded.progress,
+                        time: recorded.time
+                    });
+                }
+            });
+            timer.start();
         }
 
         private function onRslLoad(e:Event):void {

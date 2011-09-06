@@ -1,23 +1,33 @@
+var started;
+var onFinishAddCallback, onFinishStream, onInfo;
 var loadStream = function () {
     var player = document.getElementById('player');
     $.ajax({
         url: '/api/program',
         dataType: 'json',
         success: function (data) {
+            started = new Date(data.start).getTime();
             $('#info').text(data.title);
             player.sync(data);
         }
     });
 };
-var onFinishAddCallback, onFinishStream;
+var onInfo = function (data) {
+    var lag = (new Date().getTime() - started - data.time * 1000);
+    if (Math.abs(lag) > 1000) {
+        loadStream();
+    }
+};
 onFinishAddCallback = onFinishStream = loadStream;
 
 $(function () {
+    var socket = io.connect();
+    // swf
     swfobject.embedSWF(
         '/swf/player.swf',
         'player','480', '360', "10.0.0", null, {}, {}, {}
     );
-
+    // comment
     var prependMessage = function (data) {
         var date = new Date(data.date);
         var dateStr = [
@@ -36,15 +46,13 @@ $(function () {
         }
     };
 
-    var socket = io.connect();
     socket.on('comment', prependMessage);
     socket.on('connection', function (data) {
         $('#connection').text(data + '人');
     });
-
-    var input = $('#message');
     $('#comments').submit(function (e) {
         e.preventDefault();
+        var input = $('#message');
         var text = input.val();
         if (text.length > 0) {
             if (text.length < 50) {
@@ -58,5 +66,5 @@ $(function () {
             input.val('');
         }
     });
-    input.focus();
+    $('#message').focus();
 });
