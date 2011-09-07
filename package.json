@@ -1,13 +1,14 @@
 {
     "name": "momocloop",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "dependencies": {
         "express": ">=2.4.6",
-        "socket.io": ">=0.8.4",
         "jade": ">= 0.15.4",
+        "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
-        "underscore": ">=1.1.7",
-        "tap": ">=0.0.9"
+        "socket.io": ">=0.8.4",
+        "tap": ">=0.0.9",
+        "underscore": ">=1.1.7"
     }
 }
