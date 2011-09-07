@@ -6,15 +6,17 @@ var loadStream = function () {
         url: '/api/program',
         dataType: 'json',
         success: function (data) {
-            started = new Date(data.start).getTime();
+            var seek = (new Date() - data.start) / data.length;
+            player.sync({ vid: data.vid, seek: seek });
+
             $('#info').text(data.title);
-            player.sync(data);
+            started = new Date(data.start).getTime();
         }
     });
 };
 var onInfo = function (data) {
     var lag = (new Date().getTime() - started - data.time * 1000);
-    if (Math.abs(lag) > 1000) {
+    if (Math.abs(lag) > 500) {
         loadStream();
     }
 };
@@ -45,7 +47,7 @@ $(function () {
             $('.message').last().remove();
         }
     };
-
+    // socket.io
     socket.on('comment', prependMessage);
     socket.on('connection', function (data) {
         $('#connection').text(data + '人');

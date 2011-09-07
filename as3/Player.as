@@ -31,7 +31,7 @@ package {
             loaderContext.applicationDomain = applicationDomain;
             viewerLoader.load(request, loaderContext);
 
-            var timer:Timer = new Timer(2000);
+            var timer:Timer = new Timer(3000);
             timer.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
                 if (recorded) {
                     ExternalInterface.call("onInfo", {
