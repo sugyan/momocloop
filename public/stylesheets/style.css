@@ -10,6 +10,9 @@ a {
 div#left {
     float: left;
 }
+div#info {
+    text-align: right;
+}
 
 div#comments {
     margin-left: 500px;

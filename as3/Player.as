@@ -31,10 +31,18 @@ package {
             loaderContext.applicationDomain = applicationDomain;
             viewerLoader.load(request, loaderContext);
 
-            var timer:Timer = new Timer(3000);
-            timer.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
+            var timer1:Timer = new Timer(100);
+            timer1.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
                 if (recorded) {
-                    ExternalInterface.call("onInfo", {
+                    ExternalInterface.call("momoclo.progress", recorded.time);
+                }
+            });
+            timer1.start();
+
+            var timer2:Timer = new Timer(3000);
+            timer2.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
+                if (recorded) {
+                    ExternalInterface.call("momoclo.onInfo", {
                         vid: recorded.mediaId,
                         duration: recorded.duration,
                         progress: recorded.progress,
@@ -42,7 +50,7 @@ package {
                     });
                 }
             });
-            timer.start();
+            timer2.start();
         }
 
         private function onRslLoad(e:Event):void {
@@ -54,14 +62,14 @@ package {
             this.addChild(viewer.display);
 
             ExternalInterface.addCallback("sync", onCallSync);
-            ExternalInterface.call("onFinishAddCallback");
+            ExternalInterface.call("momoclo.onFinishAddCallback");
         }
 
         private function onCallSync(obj:Object):void {
             if (! (recorded && recorded.mediaId === obj.vid)) {
                 recorded = viewer.createRecorded(obj.vid);
                 recorded.addEventListener("finish", function (e:Event):void {
-                    ExternalInterface.call("onFinishStream");
+                    ExternalInterface.call("momoclo.onFinishStream");
                 });
             }
             recorded.seek(obj.seek);

@@ -1,26 +1,31 @@
-var started;
-var onFinishAddCallback, onFinishStream, onInfo;
-var loadStream = function () {
+var momoclo = {};
+
+momoclo.loadStream = function () {
     var player = document.getElementById('player');
     $.ajax({
         url: '/api/program',
         dataType: 'json',
         success: function (data) {
+            $('#duration').text(data.length / 1000);
             var seek = (new Date() - data.start) / data.length;
             player.sync({ vid: data.vid, seek: seek });
 
-            $('#info').text(data.title);
-            started = new Date(data.start).getTime();
+            $('#title').text(data.title);
+            momoclo.started = new Date(data.start).getTime();
         }
     });
 };
-var onInfo = function (data) {
-    var lag = (new Date().getTime() - started - data.time * 1000);
+momoclo.onInfo = function (data) {
+    var lag = (new Date().getTime() - momoclo.started - data.time * 1000);
     if (Math.abs(lag) > 500) {
-        loadStream();
+        momoclo.loadStream();
     }
 };
-onFinishAddCallback = onFinishStream = loadStream;
+momoclo.onFinishAddCallback = momoclo.onFinishStream = momoclo.loadStream;
+momoclo.progress = function (time) {
+    var i, str = String(time).replace(/(\d+)\.(\d)(.*)/, '$1.$2');
+    $('#time').text(str);
+};
 
 $(function () {
     var socket = io.connect();
