@@ -7,19 +7,12 @@ momoclo.loadStream = function () {
         dataType: 'json',
         success: function (data) {
             $('#duration').text(data.length / 1000);
-            var seek = (new Date() - data.start) / data.length;
-            player.sync({ vid: data.vid, seek: seek });
+            player.sync({ vid: data.vid, start: data.start });
 
             $('#title').text(data.title);
             momoclo.started = new Date(data.start).getTime();
         }
     });
-};
-momoclo.onInfo = function (data) {
-    var lag = (new Date().getTime() - momoclo.started - data.time * 1000);
-    if (Math.abs(lag) > 500) {
-        momoclo.loadStream();
-    }
 };
 momoclo.onFinishAddCallback = momoclo.onFinishStream = momoclo.loadStream;
 momoclo.progress = function (time) {

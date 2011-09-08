@@ -16,6 +16,7 @@ package {
         private var viewerLoader:Loader;
         private var recorded:Object;
         private var viewer:Object;
+        private var start:Number;
 
         public function Player() {
             Security.allowDomain("*");
@@ -39,15 +40,24 @@ package {
             });
             timer1.start();
 
-            var timer2:Timer = new Timer(3000);
+            var timer2:Timer = new Timer(2000);
             timer2.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
                 if (recorded) {
-                    ExternalInterface.call("momoclo.onInfo", {
-                        vid: recorded.mediaId,
-                        duration: recorded.duration,
-                        progress: recorded.progress,
-                        time: recorded.time
-                    });
+                    recorded.play();
+                    var now:Date = new Date();
+                    var lag:Number = recorded.time * 1000 - (now.getTime() - start);
+                    if (lag < -400) {
+                        var seek:Number = (now.getTime() - start + 500) / recorded.duration / 1000;
+                        recorded.seek(seek);
+                    }
+                    if (lag > 100) {
+                        var timer:Timer = new Timer(lag, 1);
+                        timer.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
+                            recorded.play();
+                        });
+                        recorded.pause();
+                        timer.start();
+                    }
                 }
             });
             timer2.start();
@@ -67,12 +77,12 @@ package {
 
         private function onCallSync(obj:Object):void {
             if (! (recorded && recorded.mediaId === obj.vid)) {
+                start = obj.start;
                 recorded = viewer.createRecorded(obj.vid);
                 recorded.addEventListener("finish", function (e:Event):void {
                     ExternalInterface.call("momoclo.onFinishStream");
                 });
             }
-            recorded.seek(obj.seek);
             viewer.playing = true;
         }
     }
