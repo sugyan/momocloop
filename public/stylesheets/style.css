@@ -7,6 +7,20 @@ a {
     color: #00B7FF;
 }
 
+div#header {
+    height: 70px;
+}
+div#header h1 {
+    float: left;
+}
+div#header div#user {
+    padding-top: 30px;
+    text-align: right;
+}
+div#header span#username {
+    margin-right: 10px;
+}
+
 div#left {
     float: left;
 }
