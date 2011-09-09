@@ -44,14 +44,13 @@ package {
             timer2.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
                 if (recorded) {
                     recorded.play();
-                    var now:Date = new Date();
-                    var lag:Number = recorded.time * 1000 - (now.getTime() - start);
+                    var now:Number = new Date().getTime();
+                    var lag:Number = recorded.time * 1000 - (now - start);
                     if (lag < -400) {
-                        var seek:Number = (now.getTime() - start + 500) / recorded.duration / 1000;
-                        recorded.seek(seek);
+                        recorded.seek((now - start + 200) / recorded.duration / 1000);
                     }
                     if (lag > 100) {
-                        var timer:Timer = new Timer(lag, 1);
+                        var timer:Timer = new Timer(lag - 50, 1);
                         timer.addEventListener(TimerEvent.TIMER, function (e:TimerEvent):void {
                             recorded.play();
                         });
