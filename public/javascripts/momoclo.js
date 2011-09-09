@@ -9,7 +9,9 @@ momoclo.loadStream = function () {
             $('#duration').text(data.length / 1000);
             player.sync({ vid: data.vid, start: data.start });
 
-            $('#title').text(data.title);
+            $('#title').html($('<a>').attr({ href: data.url, target: '_blank' }).text(data.title));
+            $('#description').text(data.description);
+            $('#created').text(data.created);
             momoclo.started = new Date(data.start).getTime();
         }
     });
