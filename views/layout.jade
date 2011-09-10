@@ -27,8 +27,8 @@ html
         span p
         span !
       div(id="user")
-        - if (locals.session.user)
-          span(id="username") hello, @#{locals.session.user.screen_name}.
+        - if (session.user)
+          span(id="username") hello, @#{session.user.screen_name}.
           a(href="/signout") sign out
         - else
           a(href="/signin")

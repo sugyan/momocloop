@@ -26,10 +26,7 @@ $(function () {
     var myname = 'you';
     var socket = io.connect();
     // swf
-    swfobject.embedSWF(
-        '/swf/player.swf',
-        'player','480', '360', "10.0.0", null, {}, {}, {}
-    );
+    swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
     // comment
     var prependMessage = function (data) {
         var date = new Date(data.date);
