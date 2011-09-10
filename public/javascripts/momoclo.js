@@ -5,14 +5,17 @@ momoclo.loadStream = function () {
     $.ajax({
         url: '/api/program',
         dataType: 'json',
+        data: {
+            type: 'live'
+        },
         success: function (data) {
-            $('#duration').text(data.length / 1000);
-            player.sync({ vid: data.vid, start: data.start });
+            $('#duration').text(data.lengthInSecond);
+            player.sync({ vid: data.id, start: data.started });
 
             $('#title').html($('<a>').attr({ href: data.url, target: '_blank' }).text(data.title));
             $('#description').text(data.description);
-            $('#created').text(data.created);
-            momoclo.started = new Date(data.start).getTime();
+            $('#created').text(data.createdAt);
+            momoclo.started = new Date(data.started).getTime();
         }
     });
 };
