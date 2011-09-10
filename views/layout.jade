@@ -4,6 +4,7 @@ html
     title momocloop
     meta(charset="utf-8")
     link(rel="stylesheet", href="/stylesheets/style.css")
+    script(type="text/javascript", src="http://platform.twitter.com/anywhere.js?id=#{twitter_api_key}&v=1")
     script(type="text/javascript", src="/javascripts/lib/jquery-1.6.3.min.js")
     script(type="text/javascript", src="/javascripts/lib/swfobject.js")
     script(type="text/javascript", src="/socket.io/socket.io.js")
@@ -27,9 +28,11 @@ html
         span !
       div(id="user")
         - if (locals.session.user)
-          span(id="username") #{locals.session.user.screen_name}
+          span(id="username") hello, @#{locals.session.user.screen_name}.
           a(href="/signout") sign out
         - else
           a(href="/signin")
             img(src="/images/sign-in-with-twitter-d.png")
     div(id="body")!= body
+    div(id="footer")
+      span created by @sugyan

@@ -23,6 +23,7 @@ momoclo.progress = function (time) {
 };
 
 $(function () {
+    var myname = 'you';
     var socket = io.connect();
     // swf
     swfobject.embedSWF(
@@ -46,8 +47,16 @@ $(function () {
         while ($('.message').length > 100) {
             $('.message').last().remove();
         }
+        // anywhere
+        twttr.anywhere(function (T) {
+            T('#messages').linkifyUsers({ className: 'blank' });
+            $('#messages a.blank').attr({ target: '_blank' });
+        });
     };
     // socket.io
+    socket.on('name', function (name) {
+        myname = name;
+    });
     socket.on('comment', prependMessage);
     socket.on('connection', function (data) {
         $('#connection').text(data + '人');
@@ -61,7 +70,7 @@ $(function () {
                 socket.emit('comment', input.val());
                 prependMessage({
                     date: new Date().getTime(),
-                    name: 'you',
+                    name: myname,
                     text: text
                 });
             }
@@ -69,4 +78,9 @@ $(function () {
         }
     });
     $('#message').focus();
+    // anywhere
+    twttr.anywhere(function (T) {
+        T('#footer').linkifyUsers({ className: 'blank' });
+        $('a.blank').attr({ target: '_blank' });
+    });
 });

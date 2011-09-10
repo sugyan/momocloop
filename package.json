@@ -3,8 +3,10 @@
     "version": "0.0.2",
     "private": true,
     "dependencies": {
+        "connect-mongodb": ">=1.0.0",
         "express": ">=2.4.6",
         "jade": ">= 0.15.4",
+        "mongodb": ">=0.9.6",
         "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
         "socket.io": ">=0.8.4",
