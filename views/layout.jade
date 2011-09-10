@@ -10,29 +10,31 @@ html
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/javascripts/momoclo.js")
   body
-    div(id="header")
+    div#header
       h1
-        span m
-        span o
-        span m
-        span o
-        span c
-        span l
-        span o
-        span(style="color:#FF0000") o
-        span(style="color:#00FF00") o
-        span(style="color:#FFFF00") o
-        span(style="color:#FF00FF") o
-        span(style="color:#800080") o
-        span p
-        span !
-      div(id="user")
+        a(href="/")
+          span m
+          span o
+          span m
+          span o
+          span c
+          span l
+          span o
+          span(style="color:#FF0000") o
+          span(style="color:#00FF00") o
+          span(style="color:#FFFF00") o
+          span(style="color:#FF00FF") o
+          span(style="color:#800080") o
+          span p
+          span !
+      div#user
         - if (session.user)
-          span(id="username") hello, @#{session.user.screen_name}.
+          span.username hello, @#{session.user.screen_name}.
           a(href="/signout") sign out
         - else
           a(href="/signin")
             img(src="/images/sign-in-with-twitter-d.png")
-    div(id="body")!= body
-    div(id="footer")
-      span created by @sugyan
+    div#body!= body
+    div#footer
+      span created by @
+        a(href="http://twitter.com/#!/sugyan", target="_blank") sugyan

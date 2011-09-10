@@ -13,12 +13,39 @@ div#header {
 div#header h1 {
     float: left;
 }
+h1 a, h1 a:visited {
+    color: black;
+    text-decoration: none;
+}
 div#header div#user {
     padding-top: 30px;
     text-align: right;
 }
 div#header span#username {
     margin-right: 10px;
+}
+
+div.room {
+    height: 240px;
+}
+div.room .image {
+    float: left;
+}
+div.room .info {
+    margin-left: 340px;
+}
+div.room .info .title {
+    font-size: larger;
+    font-weight: bold;
+}
+div.room dl {
+}
+div.room dl dt {
+    float: left;
+    width: 4em;
+}
+div.room dl dd {
+    margin: 0.7em 5em;
 }
 
 div#left {
@@ -57,7 +84,7 @@ div.message span.text {
 }
 
 div#footer {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
 }
