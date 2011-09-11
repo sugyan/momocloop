@@ -25,6 +25,11 @@ momoclo.progress = function (time) {
     $('#time').text(str);
 };
 
+var socket = io.connect();
+socket.on('connect', function () {
+    socket.emit('join', window.location.pathname);
+});
+
 if (window.location.pathname === '/') {
     $(function () {
         var started  = {};
@@ -41,7 +46,6 @@ if (window.location.pathname === '/') {
                     dataType: 'json',
                     data: { type: e },
                     success: function (data) {
-                        console.log(JSON.stringify(data));
                         var div = $('#' + e);
                         started[e]  = data.started;
                         duration[e] = data.lengthInSecond * 1000;
@@ -66,17 +70,22 @@ if (window.location.pathname === '/') {
                 if (started[e]) {
                     $('#' + e + ' .nowplaying').text(toMmSsString((now - started[e]) / 1000));
                     if (now - (started[e] + duration[e]) > 0) {
-                        console.log('load!');
                         loadProgram();
                     }
                 }
             });
         }, 200);
+        // connections
+        socket.on('connection', function (data) {
+            $.each(['live', 'talk'], function (i, e) {
+                var val = data['/' + e] ? data['/' + e].length : 0;
+                $('#' + e + ' .connections').text(val + '人');
+            });
+        });
     });
 }
 else {
     $(function () {
-        var socket = io.connect();
         var myname = 'you';
         // comment
         var prependMessage = function (data) {
@@ -109,7 +118,7 @@ else {
         });
         socket.on('comment', prependMessage);
         socket.on('connection', function (data) {
-            $('#connection').text(data + '人');
+            $('#connection').text(data[window.location.pathname].length + '人');
         });
         $('#comments').submit(function (e) {
             e.preventDefault();
