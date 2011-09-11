@@ -92,6 +92,7 @@ div#footer #social {
 }
 div#footer #social > div {
     float: left;
+    margin-right: 10px;
 }
 
 div#footer #author {

@@ -38,6 +38,10 @@ html
     div#body!= body
     div#footer
       div#social
+        div#hatena
+          a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
+            img(src="http://b.st-hatena.com/images/entry-button/button-only.gif", alt="このエントリーをはてなブックマークに追加", width="20", height="20", style="border: none;")
+          script(type="text/javascript", src="http://b.st-hatena.com/js/bookmark_button.js", charset="utf-8", async="async")
         div#twitter
           a.twitter-share-button(href="http://twitter.com/share", data-count="horizontal", data-via="sugyan", data-lang="ja") ツイート
           script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
@@ -50,6 +54,6 @@ html
             js.src = "//connect.facebook.net/en_US/all.js#appId=149008751857045&xfbml=1";
             d.getElementsByTagName('head')[0].appendChild(js);
             }(document));
-          div.fb-like(data-href="http://momoclo.no.de/", data-send="false", data-width="450", data-show-faces="true")
+          div.fb-like(data-href="http://momoclo.no.de/", data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
       span#author created by @
         a(href="http://twitter.com/#!/sugyan", target="_blank") sugyan
