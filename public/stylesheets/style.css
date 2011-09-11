@@ -69,7 +69,10 @@ form#comment input[type="submit"] {
     margin-left: 5px;
 }
 div#messages {
+    height: 400px;
+    width: auto;
     margin-top: 10px;
+    overflow: auto;
 }
 div.message span.date {
     color: gray;
