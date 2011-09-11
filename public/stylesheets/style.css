@@ -83,7 +83,15 @@ div.message span.text {
     margin-left: 5px;
 }
 
-div#footer {
+div#footer #social {
+    clear: both;
+    padding-top: 20px;
+}
+div#footer #social > div {
+    float: left;
+}
+
+div#footer #author {
     position: fixed;
     bottom: 10px;
     right: 10px;
