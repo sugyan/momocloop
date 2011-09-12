@@ -3,6 +3,7 @@
     "version": "0.0.2",
     "private": true,
     "dependencies": {
+        "async": ">=0.1.9",
         "connect-mongodb": ">=1.0.0",
         "express": ">=2.4.6",
         "jade": ">= 0.15.4",
