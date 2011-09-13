@@ -25,9 +25,9 @@ momoclo.progress = function (time) {
     $('#time').text(str);
 };
 
-var socket = io.connect();
-socket.on('connect', function () {
-    socket.emit('join', window.location.pathname);
+var connection = io.connect('/connection');
+connection.on('connect', function () {
+    connection.emit('join', location.pathname);
 });
 
 if (window.location.pathname === '/') {
@@ -76,10 +76,9 @@ if (window.location.pathname === '/') {
             });
         }, 200);
         // connections
-        socket.on('connection', function (data) {
+        connection.on('connection', function (data) {
             $.each(['live', 'talk'], function (i, e) {
-                var val = data['/' + e] ? data['/' + e].length : 0;
-                $('#' + e + ' .connections').text(val + '人');
+                $('#' + e + ' .connections').text(data[e] + '人');
             });
         });
     });
@@ -87,7 +86,6 @@ if (window.location.pathname === '/') {
 else {
     $(function () {
         var myname = 'you';
-        // comment
         var prependMessage = function (data) {
             var date = new Date(data.date);
             var dateStr = [
@@ -110,16 +108,23 @@ else {
                 $('#messages a.blank').attr({ target: '_blank' });
             });
         };
-        // swf
-        swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
+
         // socket.io
+        var socket = io.connect('/player');
+        socket.on('connect', function () {
+            socket.emit('join', window.location.pathname);
+        });
         socket.on('name', function (name) {
             myname = name;
         });
         socket.on('comment', prependMessage);
-        socket.on('connection', function (data) {
-            $('#connection').text(data[window.location.pathname].length + '人');
+
+        // connections
+        connection.on('connection', function (data) {
+            $('#connection').text(data[location.pathname.replace(/^\//, '')] + '人');
         });
+
+        // form
         $('#comments').submit(function (e) {
             e.preventDefault();
             var input = $('#message');
@@ -137,5 +142,8 @@ else {
             }
         });
         $('#message').focus();
+
+        // swf
+        swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
     });
 }
