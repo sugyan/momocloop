@@ -86,6 +86,24 @@ if (window.location.pathname === '/') {
 else {
     $(function () {
         var myname = 'you';
+        var displayCall = function (data) {
+            var message = {
+                a: ['あーりん！',   '#FF00FF'],
+                m: ['ももか！',     '#00FF00'],
+                k: ['かなこぉ↑',   '#FF0000'],
+                s: ['しおりん！',   '#FFFF00'],
+                r: ['れにちゃん！', '#800080']
+            }[data];
+            var div = $('<div>').addClass('call').css({
+                top: Math.random() * (100 - 10),
+                left: Math.random() * 480 - 30,
+                color: message[1]
+            }).text('＼' + message[0] + '／');
+            $('#display').append(div);
+            setTimeout(function () {
+                div.fadeOut('fast', function () { div.remove(); });
+            }, 1000);
+        };
         var prependMessage = function (data) {
             var date = new Date(data.date);
             var dateStr = [
@@ -118,12 +136,19 @@ else {
             myname = name;
         });
         socket.on('comment', prependMessage);
+        socket.on('call', displayCall);
 
         // connections
         connection.on('connection', function (data) {
             $('#connection').text(data[location.pathname.replace(/^\//, '')] + '人');
         });
 
+        // buttons
+        $('#buttons button').click(function () {
+            var id = $(this).attr('id');
+            socket.emit('call', id);
+            displayCall(id);
+        });
         // form
         $('#comments').submit(function (e) {
             e.preventDefault();

@@ -51,6 +51,23 @@ div.room dl dd {
 div#left {
     float: left;
 }
+div#left #display {
+    height: 100px;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+}
+div#left #display .call {
+    font-weight: bold;
+    position: absolute;
+    white-space: nowrap;
+}
+div#left button {
+    width: 90px;
+    margin-right: 5px;
+    background-color: black;
+    font-weight: bold;
+}
 div#info {
     text-align: right;
 }

@@ -12,6 +12,7 @@ package {
 
     import tv.ustream.viewer.logic.Logic;
 
+    [SWF(backgroundColor="0x000000")]
     public class Player extends Sprite {
         private var viewerLoader:Loader;
         private var recorded:Object;
