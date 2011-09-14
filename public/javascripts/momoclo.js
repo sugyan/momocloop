@@ -86,7 +86,7 @@ if (window.location.pathname === '/') {
 else {
     $(function () {
         var myname = 'you';
-        var displayCall = function (data) {
+        var displayCall = function (data, myself) {
             var message = {
                 a: ['あーりん！',   '#FF00FF'],
                 m: ['ももか！',     '#00FF00'],
@@ -97,7 +97,8 @@ else {
             var div = $('<div>').addClass('call').css({
                 top: Math.random() * (100 - 10),
                 left: Math.random() * 480 - 30,
-                color: message[1]
+                color: message[1],
+                'font-size': myself ? 'large' : 'normal'
             }).text('＼' + message[0] + '／');
             $('#display').append(div);
             setTimeout(function () {
@@ -147,7 +148,7 @@ else {
         $('#buttons button').click(function () {
             var id = $(this).attr('id');
             socket.emit('call', id);
-            displayCall(id);
+            displayCall(id, true);
         });
         // form
         $('#comments').submit(function (e) {
