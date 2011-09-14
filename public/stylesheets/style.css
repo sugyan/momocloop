@@ -62,9 +62,12 @@ div#left #display .call {
     position: absolute;
     white-space: nowrap;
 }
+div#left #buttons {
+    text-align: center;
+}
 div#left button {
     width: 90px;
-    margin-right: 5px;
+    margin: 1px 3px;
     background-color: black;
     font-weight: bold;
 }
