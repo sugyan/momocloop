@@ -15,6 +15,17 @@ momoclo.loadStream = function () {
             $('#title').html($('<a>').attr({ href: data.url, target: '_blank' }).text(data.title));
             $('#description').text(data.description);
             $('#created').text(data.createdAt);
+            if (new Date(data.createdAt) >= new Date('2011-04-11')) {
+                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
+                    $('#' + e).addClass('z');
+                });
+                $('#h').hide();
+            } else {
+                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
+                    $('#' + e).removeClass('z');
+                });
+                $('#h').show();
+            }
             momoclo.started = new Date(data.started).getTime();
         }
     });
@@ -93,6 +104,7 @@ else {
                 k: ['かなこぉ↑',   '#FF0000'],
                 s: ['しおりん！',   '#FFFF00'],
                 r: ['れにちゃん！', '#800080'],
+                h: ['あかりん！',   '#0000FF'],
                 u: ['うりゃ！',     '#808080'],
                 o: ['おい！',       '#808080']
             }[data];

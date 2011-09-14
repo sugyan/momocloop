@@ -66,10 +66,14 @@ div#left #buttons {
     text-align: center;
 }
 div#left button {
-    width: 90px;
-    margin: 1px 3px;
-    background-color: black;
+    width: 75px;
+    margin: 1px 2px;
+    text-shadow: gray 1px 1px 1px;
+    background-color: #DDD;
     font-weight: bold;
+}
+div#left button.z {
+    width: 90px;
 }
 div#info {
     text-align: right;
