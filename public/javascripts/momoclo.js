@@ -30,6 +30,7 @@ momoclo.loadStream = function () {
                 $('#h').show();
                 $('#z').data('z', false);
             }
+            momoclo.vid = data.id;
             momoclo.started = new Date(data.started).getTime();
         }
     });
@@ -39,8 +40,8 @@ momoclo.onFinishStream = function () {
     setTimeout(momoclo.loadStream, 1000);
 };
 momoclo.progress = function (time) {
-    var i, str = String(time).replace(/(\d+)\.(\d)(.*)/, '$1.$2');
-    $('#time').text(str);
+    var t = Math.floor(time * 10);
+    $('#time').text((t - (t % 10)) / 10 + '.' + t % 10);
 };
 
 var connection = io.connect('/connection');
@@ -188,7 +189,11 @@ else {
             var text = input.val();
             if (text.length > 0) {
                 if (text.length < 50) {
-                    socket.emit('comment', input.val());
+                    socket.emit('comment', {
+                        vid: momoclo.vid,
+                        time: $('#time').text(),
+                        text: input.val()
+                    });
                     prependMessage({
                         date: new Date().getTime(),
                         name: myname,

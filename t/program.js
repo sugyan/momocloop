@@ -100,9 +100,8 @@ test('program', function (t) {
         },
         // setPrograms
         function (callback) {
-            program.setPrograms('talk', function (err, data) {
+            program.setPrograms('talk', function (err) {
                 t.notOk(err, 'success');
-                t.ok(data, 'data');
                 callback();
             });
         },
