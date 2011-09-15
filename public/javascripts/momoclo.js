@@ -22,11 +22,13 @@ momoclo.loadStream = function () {
                     $('#' + e).addClass('z');
                 });
                 $('#h').hide();
+                $('#z').data('z', true);
             } else {
                 $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
                     $('#' + e).removeClass('z');
                 });
                 $('#h').show();
+                $('#z').data('z', false);
             }
             momoclo.started = new Date(data.started).getTime();
         }
@@ -108,7 +110,8 @@ else {
                 r: ['れにちゃん！', '#800080'],
                 h: ['あかりん！',   '#0000FF'],
                 u: ['うりゃ！',     '#808080'],
-                o: ['おい！',       '#808080']
+                o: ['おい！',       '#808080'],
+                z: ['ゼーット！',   '#FFFFFF']
             }[data];
             var div = $('<div>').addClass('call').css({
                 top: Math.random() * (100 - 10),
@@ -144,10 +147,9 @@ else {
             });
         };
         var keyboardCommand = function (e) {
-            if ($.inArray(e.keyCode, [65, 72, 75, 77, 79, 82, 83, 85]) !== -1) {
+            if ($.inArray(e.keyCode, [65, 72, 75, 77, 79, 82, 83, 85, 90]) !== -1) {
                 var id = String.fromCharCode(e.keyCode).toLowerCase();
-                socket.emit('call', id);
-                displayCall(id, true);
+                $('#' + id).click();
             }
         };
 
@@ -170,8 +172,11 @@ else {
         // buttons
         $('#buttons button').click(function () {
             var id = $(this).attr('id');
-            socket.emit('call', id);
-            displayCall(id, true);
+            var button = $('#' + id);
+            if (button.css('display') !== 'none' || button.data('z')) {
+                socket.emit('call', id);
+                displayCall(id, true);
+            }
         });
         // form
         $('#comments').submit(function (e) {
