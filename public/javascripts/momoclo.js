@@ -141,6 +141,13 @@ else {
                 $('#messages a.blank').attr({ target: '_blank' });
             });
         };
+        var keyboardCommand = function (e) {
+            if ($.inArray(e.keyCode, [65, 72, 75, 77, 79, 82, 83, 85]) !== -1) {
+                var id = String.fromCharCode(e.keyCode).toLowerCase();
+                socket.emit('call', id);
+                displayCall(id, true);
+            }
+        };
 
         // socket.io
         var socket = io.connect('/player');
@@ -181,7 +188,14 @@ else {
                 input.val('');
             }
         });
-        $('#message').focus();
+        $('#message')
+            .focus(function () {
+                $(document).unbind('keydown', keyboardCommand);
+            })
+            .focusout(function () {
+                $(document).bind('keydown', keyboardCommand);
+            });
+        $(document).bind('keydown', keyboardCommand);
 
         // swf
         swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
