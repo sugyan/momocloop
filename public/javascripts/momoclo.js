@@ -34,7 +34,10 @@ momoclo.loadStream = function () {
         }
     });
 };
-momoclo.onFinishAddCallback = momoclo.onFinishStream = momoclo.loadStream;
+momoclo.onFinishAddCallback = momoclo.loadStream;
+momoclo.onFinishStream = function () {
+    setTimeout(momoclo.loadStream, 1000);
+};
 momoclo.progress = function (time) {
     var i, str = String(time).replace(/(\d+)\.(\d)(.*)/, '$1.$2');
     $('#time').text(str);
