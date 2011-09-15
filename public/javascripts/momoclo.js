@@ -12,10 +12,12 @@ momoclo.loadStream = function () {
             $('#duration').text(data.lengthInSecond);
             player.sync({ vid: data.id, start: data.started });
 
+            var created = new Date(data.createdAt);
             $('#title').html($('<a>').attr({ href: data.url, target: '_blank' }).text(data.title));
             $('#description').text(data.description);
-            $('#created').text(data.createdAt);
-            if (new Date(data.createdAt) >= new Date('2011-04-11')) {
+            $('#created').text(created.toLocaleString());
+            // after 2011-04-10 ?
+            if (created >= new Date(1302447600000)) {
                 $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
                     $('#' + e).addClass('z');
                 });
