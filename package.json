@@ -14,6 +14,6 @@
         "tap": ">=0.0.9"
     },
     "scripts": {
-        "prestart": "node scripts/index.js"
+        "prestart": "node ./scripts/index.js"
     }
 }
