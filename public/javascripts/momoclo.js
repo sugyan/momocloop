@@ -190,12 +190,12 @@ else {
         });
         $('#message')
             .focus(function () {
-                $(document).unbind('keydown', keyboardCommand);
+                $(document).unbind('keyup', keyboardCommand);
             })
             .focusout(function () {
-                $(document).bind('keydown', keyboardCommand);
+                $(document).bind('keyup', keyboardCommand);
             });
-        $(document).bind('keydown', keyboardCommand);
+        $(document).bind('keyup', keyboardCommand);
 
         // swf
         swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
