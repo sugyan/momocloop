@@ -66,8 +66,10 @@ div#left #buttons {
     text-align: center;
 }
 div#left button {
-    width: 75px;
+    width: 76px;
+    height: 26px;
     margin: 1px 2px;
+    padding: 0;
     text-shadow: gray 1px 1px 1px;
     background-color: #DDD;
     font-weight: bold;
