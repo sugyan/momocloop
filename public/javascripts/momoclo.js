@@ -48,6 +48,15 @@ var connection = io.connect('/connection');
 connection.on('connect', function () {
     connection.emit('join', location.pathname);
 });
+connection.on('connection', function (data) {
+    if (window.webkitNotifications && window.webkitNotifications.checkPermission() === 0) {
+        var notification = window.webkitNotifications.createNotification('', 'momocloop', JSON.stringify(data));
+        notification.show();
+        setTimeout(function () {
+            notification.cancel();
+        }, 3000);
+    }
+});
 
 if (window.location.pathname === '/') {
     $(function () {

@@ -1,0 +1,3 @@
+button#notifications(style="display:none;") notification
+script(type="text/javascript")
+  $(function(){if(window.webkitNotifications&&window.webkitNotifications.checkPermission()!==0){$('#notifications').show().click(function(e){window.webkitNotifications.requestPermission();});}});
