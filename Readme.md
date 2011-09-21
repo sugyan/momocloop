@@ -15,3 +15,4 @@ http://momoclo.no.de/
 
 - [node.js](http://nodejs.org/)
 - [MongoDb](http://www.mongodb.org/)
+- [Redis](http://redis.io/)
