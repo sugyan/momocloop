@@ -1,18 +1,22 @@
+var url = require('url');
 var async = require('async');
 var mongodb = require('mongodb');
-var auth;
-var server = new mongodb.Server(
-    process.env.npm_package_config__mongodb_host,
-    process.env.npm_package_config__mongodb_port,
-    {}
-);
-if (process.env.npm_package_config__mongodb_username && process.env.npm_package_config__mongodb_password) {
-    auth = {
-        username: process.env.npm_package_config__mongodb_username,
-        password: process.env.npm_package_config__mongodb_password
+var model = require('./../lib/model');
+
+var db = (function () {
+    var parsed_url  = url.parse(process.env.npm_package_config__mongo_url || 'mongodb://127.0.0.1:27017/momocloop');
+    var parsed_auth = parsed_url.auth ? parsed_url.auth.split(':') : null;
+    var config = {
+        host: parsed_url.hostname,
+        port: parsed_url.port,
+        dbname: parsed_url.pathname.substr(1)
     };
-}
-db = new mongodb.Db(process.env.npm_package_config__mongodb_dbname, server);
+    if (parsed_auth) {
+        config.username = parsed_auth[0];
+        config.password = parsed_auth[1];
+    }
+    return new model.Db(config);
+}());
 
 function ensureIndex () {
     async.series([
@@ -42,15 +46,7 @@ function ensureIndex () {
     });
 }
 
-db.open(function (err, client) {
+db.open(function (err) {
     if (err) { throw err; }
-    if (auth) {
-        client.authenticate(auth.username, auth.password, function (err, result) {
-            if (err) { throw err; }
-            if (! result) { throw 'auth fails'; }
-            ensureIndex();
-        });
-    } else {
-        ensureIndex();
-    }
+    ensureIndex();
 });
