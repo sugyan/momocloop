@@ -11,7 +11,8 @@
         "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
         "socket.io": ">=0.8.4",
-        "tap": ">=0.0.9"
+        "tap": ">=0.0.9",
+        "test-tcp": ">=0.0.1"
     },
     "scripts": {
         "prestart": "node ./scripts/index.js"
