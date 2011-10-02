@@ -6,13 +6,15 @@
         "async": ">=0.1.10",
         "connect-redis": ">=1.0.7",
         "express": ">=2.4.6",
-        "jade": ">= 0.15.4",
+        "jade": ">= 0.16.2",
         "mongodb": ">=0.9.6",
         "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
         "socket.io": ">=0.8.4",
         "tap": ">=0.0.9",
-        "test-tcp": ">=0.0.1"
+    },
+    "devDependencies": {
+        "test-tcp": ">=0.0.2"
     },
     "scripts": {
         "prestart": "node ./scripts/index.js"
