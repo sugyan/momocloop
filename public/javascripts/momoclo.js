@@ -9,12 +9,13 @@ momoclo.loadStream = function () {
             type: window.location.pathname === '/live' ? 'live' : 'talk'
         },
         success: function (data) {
-            $('#duration').text(data.lengthInSecond);
-            player.sync({ vid: data.id, start: data.started });
+            var current = data[0];
+            $('#duration').text(current.lengthInSecond);
+            player.sync({ vid: current.id, start: current.started });
 
-            var created = new Date(data.createdAt);
-            $('#title').html($('<a>').attr({ href: data.url, target: '_blank' }).text(data.title));
-            $('#description').text(data.description);
+            var created = new Date(current.createdAt);
+            $('#title').html($('<a>').attr({ href: current.url, target: '_blank' }).text(current.title));
+            $('#description').text(current.description);
             $('#created').text(created.toLocaleString());
             // after 2011-04-10 ?
             if (created >= new Date(1302447600000)) {
@@ -30,8 +31,8 @@ momoclo.loadStream = function () {
                 $('#h').show();
                 $('#z').data('z', false);
             }
-            momoclo.vid = data.id;
-            momoclo.started = new Date(data.started).getTime();
+            momoclo.vid = current.id;
+            momoclo.started = new Date(current.started).getTime();
         }
     });
 };
@@ -74,19 +75,20 @@ if (window.location.pathname === '/') {
                     dataType: 'json',
                     data: { type: e },
                     success: function (data) {
+                        var current = data[0];
                         var div = $('#' + e);
-                        started[e]  = data.started;
-                        duration[e] = data.lengthInSecond * 1000;
+                        started[e]  = current.started;
+                        duration[e] = current.lengthInSecond * 1000;
                         div.find('.image').empty().append(
                             $('<a>').attr({ href: '/' + e })
-                                .append($('<img>').attr({ src: data.image2 }))
+                                .append($('<img>').attr({ src: current.image2 }))
                         );
                         div.find('.title').empty().append(
-                            $('<a>').attr({ href: '/' + e }).text(data.title)
+                            $('<a>').attr({ href: '/' + e }).text(current.title)
                         );
-                        div.find('.description').text(data.description);
-                        div.find('.created').text(data.createdAt);
-                        div.find('.duration').text(toMmSsString(data.lengthInSecond));
+                        div.find('.description').text(current.description);
+                        div.find('.created').text(current.createdAt);
+                        div.find('.duration').text(toMmSsString(current.lengthInSecond));
                     }
                 });
             });
@@ -154,8 +156,8 @@ else {
                 $('.message').last().remove();
             }
             // anywhere
-            twttr.anywhere(function (T) {
-                T('#messages').linkifyUsers({ className: 'blank' });
+            twttr.anywhere(function (t) {
+                t('#messages').linkifyUsers({ className: 'blank' });
                 $('#messages a.blank').attr({ target: '_blank' });
             });
         };
