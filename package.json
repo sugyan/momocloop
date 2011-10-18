@@ -6,7 +6,6 @@
         "connect-redis": ">=1.1.0",
         "express": ">=2.4.7",
         "jade": ">= 0.16.2",
-        "mongodb": ">=0.9.6",
         "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
         "redis": ">=0.6.7",
@@ -15,8 +14,5 @@
     "devDependencies": {
         "nodeunit": ">=0.5.5",
         "test-tcp": ">=0.0.3"
-    },
-    "scripts": {
-        "prestart": "node ./scripts/index.js"
     }
 }

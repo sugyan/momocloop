@@ -14,5 +14,4 @@ http://momoclo.no.de/
 ### Requirement ###
 
 - [node.js](http://nodejs.org/)
-- [MongoDb](http://www.mongodb.org/)
 - [Redis](http://redis.io/)
