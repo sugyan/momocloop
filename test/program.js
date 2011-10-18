@@ -104,6 +104,9 @@ module.exports = testCase({
                 test.done();
             });
         });
+        // simultaneously generate
+        program.getPrograms('talk', function () {});
+        program.getPrograms('talk', function () {});
 
         process.on('uncaughtException', function (err) {
             console.error('%s: %s', err.type, err.message);
