@@ -10,6 +10,7 @@ module.exports = {
         '15887713': true,       // 2011/07/09 MEGA WEB 1
         '15888619': true,       // 2011/07/09 MEGA WEB 2
         '16269528': true,       // 2011/07/27 Shinjuku ALTA
-        '16615342': true        // 2011/08/12 Boin Osaka
+        '16615342': true,       // 2011/08/12 Boin Osaka
+        '17774795': true        // 2011/10/09 bellesalle
     }
 };
