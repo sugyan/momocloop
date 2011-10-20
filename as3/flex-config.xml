@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <flex-config>
+  <target-player>11.0.0</target-player>
+  <swf-version>13</swf-version>
   <compiler>
     <library-path>
       <path-element>./lib/rsls</path-element>

@@ -224,6 +224,8 @@ else {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "10.0.0", null, {}, {}, {});
+        swfobject.embedSWF('/swf/player.swf', 'player','480', '360', "11.0.0", null, {
+            type: window.location.pathname === '/live' ? 'live' : 'talk'
+        }, {}, {});
     });
 }
