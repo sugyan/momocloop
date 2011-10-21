@@ -91,7 +91,7 @@ package {
 
         private function getProgram():void {
             var apiLoader:URLLoader = new URLLoader();
-            var request:URLRequest = new URLRequest("http://momoclo.no.de/api/program?type=" + (loaderInfo.parameters.type || "live"));
+            var request:URLRequest = new URLRequest("http://momoclo.no.de/api/program?type=" + PROGRAM::type);
             apiLoader.addEventListener(Event.COMPLETE, function (e:Event):void {
                 var data:Object = JSON.parse(apiLoader.data)[0];
                 if (! (recorded && recorded.mediaId === data.id)) {

@@ -224,8 +224,6 @@ else {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/player.swf', 'player','480', '360', '11.0.0', '/swf/expressInstall.swf', {
-            type: window.location.pathname === '/live' ? 'live' : 'talk'
-        }, {}, {});
+        swfobject.embedSWF('/swf/' + (window.location.pathname === '/live' ? 'live' : 'talk') + 'Player.swf', 'player','480', '360', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }
