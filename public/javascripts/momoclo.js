@@ -1,55 +1,24 @@
 var momoclo = {};
 
-momoclo.loadStream = function () {
-    var player = document.getElementById('player');
+momoclo.loadProgram = function (type, callback) {
     $.ajax({
         url: '/api/program',
         dataType: 'json',
-        data: {
-            type: window.location.pathname === '/live' ? 'live' : 'talk'
-        },
+        data: { type: type },
         success: function (data) {
-            var current = data[0];
-            $('#duration').text(current.lengthInSecond);
-            player.sync({ vid: current.id, start: current.started });
-
-            var created = new Date(current.createdAt);
-            $('#title').html($('<a>').attr({ href: current.url, target: '_blank' }).text(current.title));
-            $('#description').text(current.description);
-            $('#created').text(created.toLocaleString());
-            // after 2011-04-10 ?
-            if (created >= new Date(1302447600000)) {
-                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
-                    $('#' + e).addClass('z');
-                });
-                $('#h').hide();
-                $('#z').data('z', true);
-            } else {
-                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
-                    $('#' + e).removeClass('z');
-                });
-                $('#h').show();
-                $('#z').data('z', false);
-            }
-            momoclo.vid = current.id;
-            momoclo.started = new Date(current.started).getTime();
+            callback({
+                type: type,
+                data: data
+            });
         }
     });
 };
-momoclo.onFinishAddCallback = momoclo.loadStream;
-momoclo.onFinishStream = function () {
-    setTimeout(momoclo.loadStream, 1000);
-};
-momoclo.progress = function (time) {
-    var t = Math.floor(time * 10);
-    $('#time').text((t - (t % 10)) / 10 + '.' + t % 10);
-};
 
-var connection = io.connect('/connection');
-connection.on('connect', function () {
-    connection.emit('join', location.pathname);
+momoclo.connection = io.connect('/connection');
+momoclo.connection.on('connect', function () {
+    momoclo.connection.emit('join', location.pathname);
 });
-connection.on('connection', function (data) {
+momoclo.connection.on('connection', function (data) {
     if (window.webkitNotifications && window.webkitNotifications.checkPermission() === 0) {
         var notification = window.webkitNotifications.createNotification('', 'momocloop', JSON.stringify(data));
         notification.show();
@@ -68,45 +37,39 @@ if (window.location.pathname === '/') {
             var s = Math.floor(seconds % 60);
             return m + ':' + (s < 10 ? '0' + s : s);
         };
-        var loadProgram = function () {
-            $.each(['live', 'talk'], function (i, e) {
-                $.ajax({
-                    url: '/api/program',
-                    dataType: 'json',
-                    data: { type: e },
-                    success: function (data) {
-                        var current = data[0];
-                        var div = $('#' + e);
-                        started[e]  = current.started;
-                        duration[e] = current.lengthInSecond * 1000;
-                        div.find('.image').empty().append(
-                            $('<a>').attr({ href: '/' + e })
-                                .append($('<img>').attr({ src: current.image2 }))
-                        );
-                        div.find('.title').empty().append(
-                            $('<a>').attr({ href: '/' + e }).text(current.title)
-                        );
-                        div.find('.description').text(current.description);
-                        div.find('.created').text(current.createdAt);
-                        div.find('.duration').text(toMmSsString(current.lengthInSecond));
-                    }
-                });
-            });
+        var setProgramInfo = function (result) {
+            var current = result.data[0];
+            var type = result.type;
+            var div = $('#' + type);
+            started[type]  = current.started;
+            duration[type] = current.lengthInSecond * 1000;
+            div.find('.image').empty().append(
+                $('<a>').attr({ href: '/' + type })
+                    .append($('<img>').attr({ src: current.image2 }))
+            );
+            div.find('.title').empty().append(
+                $('<a>').attr({ href: '/' + type }).text(current.title)
+            );
+            div.find('.description').text(current.description);
+            div.find('.created').text(current.createdAt);
+            div.find('.duration').text(toMmSsString(current.lengthInSecond));
         };
-        loadProgram();
+        $.each(['live', 'talk'], function (i, e) {
+            momoclo.loadProgram(e, setProgramInfo);
+        });
         setInterval(function () {
             var now = new Date().getTime();
             $.each(['live', 'talk'], function (i, e) {
                 if (started[e]) {
                     $('#' + e + ' .nowplaying').text(toMmSsString((now - started[e]) / 1000));
                     if (now - (started[e] + duration[e]) > 0) {
-                        loadProgram();
+                        momoclo.loadProgram(e, setProgramInfo);
                     }
                 }
             });
         }, 200);
         // connections
-        connection.on('connection', function (data) {
+        momoclo.connection.on('connection', function (data) {
             $.each(['live', 'talk'], function (i, e) {
                 $('#' + e + ' .connections').text(data[e] + '人');
             });
@@ -115,7 +78,10 @@ if (window.location.pathname === '/') {
 }
 else {
     $(function () {
+        var started = 0;
+        var duration = 0;
         var myname = 'you';
+        var type = (window.location.pathname === '/live') ? 'live' : 'talk';
         var displayCall = function (data, myself) {
             var message = {
                 a: ['あーりん！',   '#FF00FF'],
@@ -167,6 +133,41 @@ else {
                 $('#' + id).click();
             }
         };
+        var setProgramInfo = function (result) {
+            var current = result.data[0];
+
+            var created = new Date(current.createdAt);
+            started = current.started;
+            duration = current.lengthInSecond * 1000;
+            $('#title').html($('<a>').attr({ href: current.url, target: '_blank' }).text(current.title));
+            $('#description').text(current.description);
+            $('#created').text(created.toLocaleString());
+            // after 2011-04-10 ?
+            if (created >= new Date(1302447600000)) {
+                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
+                    $('#' + e).addClass('z');
+                });
+                $('#h').hide();
+                $('#z').data('z', true);
+            } else {
+                $.each(['a', 'm', 'k', 's', 'r'], function (i, e) {
+                    $('#' + e).removeClass('z');
+                });
+                $('#h').show();
+                $('#z').data('z', false);
+            }
+        };
+
+        // program info
+        momoclo.loadProgram(type, setProgramInfo);
+        setInterval(function () {
+            var now = new Date().getTime();
+            if (started > 0) {
+                if (now - (started + duration) > 0) {
+                    momoclo.loadProgram(type, setProgramInfo);
+                }
+            }
+        }, 200);
 
         // socket.io
         var socket = io.connect('/player');
@@ -180,7 +181,7 @@ else {
         socket.on('call', displayCall);
 
         // connections
-        connection.on('connection', function (data) {
+        momoclo.connection.on('connection', function (data) {
             $('#connection').text(data[location.pathname.replace(/^\//, '')] + '人');
         });
 
@@ -224,6 +225,6 @@ else {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/' + (window.location.pathname === '/live' ? 'live' : 'talk') + 'Player.swf', 'player','480', '360', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
+        swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','480', '360', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }

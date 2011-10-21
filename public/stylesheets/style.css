@@ -82,7 +82,7 @@ div#left button.z {
     width: 90px;
 }
 div#info {
-    text-align: right;
+    margin-top: 10px;
 }
 
 div#comments {
