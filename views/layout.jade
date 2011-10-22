@@ -4,53 +4,59 @@ html
   head
     title #{title}momocloop (#momoclo ustream archive viewer)
     meta(charset="utf-8")
+    link(rel="stylesheet", type="text/css", href="http://fonts.googleapis.com/css?family=Terminal+Dosis:600")
+    link(rel="stylesheet", type="text/css", href="/stylesheets/lib/bootstrap/bootstrap.min.css")
     link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
     script(type="text/javascript", src="http://platform.twitter.com/anywhere.js?id=#{twitter_api_key}&v=1")
     script(type="text/javascript", src="/javascripts/lib/jquery-1.6.4.min.js")
+    script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-dropdown.js")
     script(type="text/javascript", src="/javascripts/lib/swfobject.js")
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/javascripts/momoclo.js")
     script(type="text/javascript")
       var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-4641008-5']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();
   body
-    div#header
-      h1
-        a(href="/")
-          span m
-          span o
-          span m
-          span o
-          span c
-          span l
-          span o
-          span(style="color:#FF0000") o
-          span(style="color:#00FF00") o
-          span(style="color:#FFFF00") o
-          span(style="color:#FF00FF") o
-          span(style="color:#800080") o
-          span p
-          span !
-      div#user
-        - if (session.user)
-          span.username hello, @#{session.user.screen_name}.
-          a(href="/signout") sign out
-        - else
-          a(href="/signin")
-            img(src="/images/sign-in-with-twitter-d.png")
-    div#body!= body
-    div#footer
-      div#social
-        div#hatena
-          a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
-            img(src="http://b.st-hatena.com/images/entry-button/button-only.gif", alt="このエントリーをはてなブックマークに追加", width="20", height="20", style="border: none;")
-          script(type="text/javascript", src="http://b.st-hatena.com/js/bookmark_button.js", charset="utf-8", async="async")
-        div#twitter
-          a.twitter-share-button(href="http://twitter.com/share", data-count="horizontal", data-via="sugyan", data-lang="ja", data-url="http://momoclo.no.de/") ツイート
-          script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
-        div#facebook
-          div#fb-root
-          script
-            (function(d){var js,id='facebook-jssdk';if(d.getElementById(id)){return;}js=d.createElement('script');js.id=id;js.async=true;js.src="//connect.facebook.net/en_US/all.js#appId=149008751857045&xfbml=1";d.getElementsByTagName('head')[0].appendChild(js);}(document));
-          div.fb-like(data-href="http://momoclo.no.de/", data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
-      span#author created by @
-        a(href="http://twitter.com/#!/sugyan", target="_blank") sugyan
+    div.topbar
+      div.topbar-inner
+        div.container
+          h3
+            a(href="/") momocloop
+          ul.nav.secondary-nav
+            - if (session.user)
+              li.dropdown(data-dropdown="dropdown")
+                a.dropdown-toggle.login(href="#")
+                  img(src="#{session.user.image}")
+                  span @#{session.user.screen_name}
+                ul.dropdown-menu
+                  li
+                    a(href="/signout") Sign out
+            - else
+              li
+                a.not-login(href="/signin")
+                  img(src="/images/sign-in-with-twitter-d.png")
+    header
+      - if (locals.isTop)
+        div.inner
+          div.container
+            h1 #momoclo ustream archive viewer
+            p
+              a(href="http://www.ustream.tv/channel/momoclotv", target="_blank") USTREAM: momocloTV: 今、一番のかぶきもの「ももいろクローバー」がＬＩＶＥする.
+              のアーカイブ動画を、同時に接続している人どうしが同じ動画の同じタイミングを視聴できるよう同期再生します。
+    div.container!= body
+    footer.footer
+      div.container
+        div#social
+          div#hatena
+            a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
+              img(src="http://b.st-hatena.com/images/entry-button/button-only.gif", alt="このエントリーをはてなブックマークに追加", width="20", height="20", style="border: none;")
+            script(type="text/javascript", src="http://b.st-hatena.com/js/bookmark_button.js", charset="utf-8", async="async")
+          div#twitter
+            a.twitter-share-button(href="http://twitter.com/share", data-count="horizontal", data-via="sugyan", data-lang="ja", data-url="http://momoclo.no.de/") ツイート
+            script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
+          div#facebook
+            div#fb-root
+            script
+              (function(d){var js,id='facebook-jssdk';if(d.getElementById(id)){return;}js=d.createElement('script');js.id=id;js.async=true;js.src="//connect.facebook.net/en_US/all.js#appId=149008751857045&xfbml=1";d.getElementsByTagName('head')[0].appendChild(js);}(document));
+            div.fb-like(data-href="http://momoclo.no.de/", data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
+        div#author.pull-right created by @
+          a(href="http://twitter.com/#!/sugyan", target="_blank") sugyan

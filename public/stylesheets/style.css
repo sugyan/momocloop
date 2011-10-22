@@ -1,33 +1,51 @@
 body {
-    padding: 30px;
+    padding-top: 40px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
-a, a:visited {
-    color: blue;
-}
-
 img {
     border: none;
 }
 
-div#header {
-    height: 80px;
+/* topbar */
+
+.topbar h3 {
+    font-family: 'Terminal Dosis', sans-serif;
 }
-div#header h1 {
-    float: left;
+.topbar a.login {
+    padding: 10px 10px 10px;
 }
-h1 a, h1 a:visited {
-    color: black;
-    text-decoration: none;
+.topbar a.not-login {
+    padding: 8px 10px 8px;
 }
-div#header div#user {
-    padding-top: 30px;
-    text-align: right;
+.topbar li.dropdown img {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+    margin-right: 6px;
+    border: none;
+    cursor: pointer;
 }
-div#header span#username {
-    margin-right: 10px;
+
+/* header */
+
+header {
+    background-color: #FFCCFF;
 }
+header .inner {
+    padding: 36px 0 27px;
+}
+header h1 {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+}
+
+/* index */
+
+div.rooms {
+    margin: 20px 0;
+}
+
+/* player */
 
 div.room {
     height: 240px;
@@ -116,17 +134,16 @@ div.message span.text {
     margin-left: 5px;
 }
 
-div#footer #social {
-    clear: both;
-    padding-top: 20px;
+/* footer */
+
+footer.footer {
+    background-color: #EEE;
+    height: 40px;
 }
-div#footer #social > div {
+footer.footer #social {
+    clear: both;
+}
+footer.footer #social > div {
     float: left;
     margin-right: 10px;
-}
-
-div#footer #author {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
 }
