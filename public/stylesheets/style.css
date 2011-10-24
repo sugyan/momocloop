@@ -41,7 +41,7 @@ header h1 {
 
 /* index */
 
-div.rooms {
+div.body {
     margin: 20px 0;
 }
 
@@ -74,7 +74,7 @@ div#left {
     float: left;
 }
 div#left #display {
-    height: 100px;
+    height: 130px;
     background-color: black;
     position: relative;
     overflow: hidden;
@@ -88,50 +88,48 @@ div#left #buttons {
     text-align: center;
 }
 div#left button {
-    width: 76px;
-    height: 26px;
-    margin: 1px 2px;
-    padding: 0;
+    width: 82px;
+    margin: 3px;
+    padding: 5px 6px 6px;
     text-shadow: gray 1px 1px 1px;
-    background-color: #DDD;
     font-weight: bold;
 }
 div#left button.z {
-    width: 90px;
+    width: 100px;
 }
 div#info {
     margin-top: 10px;
 }
 
-div#comments {
-    margin-left: 500px;
-}
 span#connection {
     margin-left: 5px;
     color: purple;
 }
-form#comment input[type="text"] {
-    width: 250px;
+div#comments input#message {
+    width: 240px;
 }
-form#comment input[type="submit"] {
-    margin-left: 5px;
+div#comments a#submit {
+    margin-left: 8px;
+    height: 15px;
 }
-div#messages {
-    height: 400px;
+dl#messages {
+    height: 550px;
     width: auto;
     margin-top: 10px;
     overflow: auto;
 }
-div.message span.date {
+dt.message.info span.date {
     color: gray;
     font-size: small;
 }
-div.message span.name {
+dt.message.info span.name {
     color: blue;
     margin-left: 5px;
+    font-size: small;
 }
-div.message span.text {
+dd.message.text {
     margin-left: 5px;
+    margin-bottom: 5px;
 }
 
 /* footer */

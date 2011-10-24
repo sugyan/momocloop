@@ -108,16 +108,23 @@ else {
         var prependMessage = function (data) {
             var date = new Date(data.date);
             var dateStr = [
+                date.getMonth() + 1,
+                date.getDate()
+            ].join('/') + ' ' + [
                 date.getHours()   < 10 ? '0' + date.getHours()   : String(date.getHours()),
                 date.getMinutes() < 10 ? '0' + date.getMinutes() : String(date.getMinutes()),
                 date.getSeconds() < 10 ? '0' + date.getSeconds() : String(date.getSeconds())
             ].join(':');
-            var div = $('<div>').addClass('message')
-                .append($('<span>').addClass('date').text(dateStr))
-                .append($('<span>').addClass('name').text(data.name))
-                .append($('<span>').addClass('text').text(data.text));
-            $('#messages').prepend(div.hide());
-            div.slideDown();
+            $('#messages')
+                .prepend(
+                    $('<dd>').addClass('message text')
+                        .append($('<span>').addClass('text').text(data.text))
+                )
+                .prepend(
+                    $('<dt>').addClass('message info')
+                        .append($('<span>').addClass('date').text(dateStr))
+                        .append($('<span>').addClass('name').text(data.name))
+                );
             while ($('.message').length > 100) {
                 $('.message').last().remove();
             }
@@ -195,6 +202,10 @@ else {
             }
         });
         // form
+        $('#comments a#submit').click(function (e) {
+            e.preventDefault();
+            $('#comment').submit();
+        });
         $('#comments').submit(function (e) {
             e.preventDefault();
             var input = $('#message');
@@ -225,6 +236,6 @@ else {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','480', '360', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
+        swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }

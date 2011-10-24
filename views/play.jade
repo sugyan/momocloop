@@ -1,25 +1,28 @@
-div#left
-  div#player
-  div#display
-  div#buttons
-    button#a.z(style="color:#FF00FF;") あーりん
-    button#m.z(style="color:#00FF00;") ももか
-    button#k.z(style="color:#FF0000;") かなこ
-    button#s.z(style="color:#FFFF00;") しおりん
-    button#r.z(style="color:#800080;") れにちゃん
-    button#h(style="color:#0000FF;display:none;") あかりん
-    br
-    button#u.z(style="color:#404040;") うりゃ
-    button#o.z(style="color:#404040;") おい
-    button#z.z(style="color:#404040;display:none;")
-  div#info
-    div#title
-    div#description
-    div#created
-div#comments
-  div 接続:
-    span#connection
-  form#comment
-    input#message(type="text")
-    input(type="submit", value="送信")
-  div#messages
+div.body
+  div.row
+    div#left.span-two-third
+      div#player
+      div#display
+      div#buttons
+        button#a.z.btn(style="color:#FF00FF;") あーりん
+        button#m.z.btn(style="color:#00FF00;") ももか
+        button#k.z.btn(style="color:#FF0000;") かなこ
+        button#s.z.btn(style="color:#FFFF00;") しおりん
+        button#r.z.btn(style="color:#800080;") れにちゃん
+        button#h.btn(style="color:#0000FF;display:none;") あかりん
+        br
+        button#u.z.btn(style="color:#404040;") うりゃ
+        button#o.z.btn(style="color:#404040;") おい
+        button#z.z.btn(style="color:#404040;display:none;")
+      div#info
+      div#title
+      div#description
+      div#created
+    div#right.span-one-third
+      div#comments
+        div 接続:
+          span#connection
+        form#comment
+          input#message(type="text")
+          a#submit.btn.small(href="#") 送信
+        dl#messages
