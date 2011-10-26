@@ -4,12 +4,12 @@
     "private": true,
     "dependencies": {
         "connect-redis": ">=1.1.0",
-        "express": ">=2.4.7",
-        "jade": ">= 0.16.2",
+        "express": ">=2.5.0",
+        "jade": ">= 0.16.4",
         "oauth": ">=0.9.5",
         "qs": ">=0.3.1",
         "redis": ">=0.6.7",
-        "socket.io": ">=0.8.5"
+        "socket.io": ">=0.8.6"
     },
     "devDependencies": {
         "nodeunit": ">=0.5.5",
