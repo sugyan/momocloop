@@ -113,5 +113,31 @@ module.exports = testCase({
             test.fail('uncaughtException');
             test.done();
         });
+    },
+    getProgramsOnError: function (test) {
+        testTCP.empty_port(function (err, port) {
+            var program = new Program({
+                api: {
+                    host: '127.0.0.1',
+                    port: port,
+                    path: '/',
+                    key: ''
+                }
+            });
+            var api = http.createServer(function (req, res) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('dummy error!');
+            });
+            api.listen(port, function () {
+                api.on('close', function () {
+                    test.done();
+                });
+                program.getPrograms('talk', function (err, data) {
+                    test.ok(err);
+                    test.equal(err.message, 'dummy error!', 'error message');
+                    api.close();
+                });
+            });
+        });
     }
 });
