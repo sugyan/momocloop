@@ -1,4 +1,7 @@
-var momoclo = {};
+var $ = window.jQuery;
+var io = window.io;
+var twttr = window.twttr;
+var momoclo = window.momoclo = {};
 
 momoclo.loadProgram = function (type, callback) {
     $.ajax({
@@ -75,8 +78,7 @@ if (window.location.pathname === '/') {
             });
         });
     });
-}
-else {
+} else {
     $(function () {
         var started = 0;
         var duration = 0;
@@ -239,3 +241,23 @@ else {
         swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }
+
+// hatena bookmark
+$(function () {
+    $.ajax({
+        url: 'http://b.hatena.ne.jp/entry/json/',
+        dataType: 'jsonp',
+        data: {
+            url: 'http://momoclo.no.de'
+        },
+        success: function (data) {
+            $('#hatena').popover({
+                title: function () { return 'はてなブックマーク'; },
+                content: function () {
+                    return data.count + ' bookmarks';
+                },
+                placement: 'above'
+            });
+        }
+    });
+});

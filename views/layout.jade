@@ -10,6 +10,8 @@ html
     script(type="text/javascript", src="http://platform.twitter.com/anywhere.js?id=#{twitter_api_key}&v=1")
     script(type="text/javascript", src="/javascripts/lib/jquery-1.6.4.min.js")
     script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-dropdown.js")
+    script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-twipsy.js")
+    script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-popover.js")
     script(type="text/javascript", src="/javascripts/lib/swfobject.js")
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/javascripts/momoclo.js")
@@ -49,7 +51,6 @@ html
           div#hatena
             a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
               img(src="http://b.st-hatena.com/images/entry-button/button-only.gif", alt="このエントリーをはてなブックマークに追加", width="20", height="20", style="border: none;")
-            script(type="text/javascript", src="http://b.st-hatena.com/js/bookmark_button.js", charset="utf-8", async="async")
           div#twitter
             a.twitter-share-button(href="http://twitter.com/share", data-count="horizontal", data-via="sugyan", data-lang="ja", data-url="http://momoclo.no.de/") ツイート
             script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
