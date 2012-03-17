@@ -1,11 +1,6 @@
-/**
- * Module dependencies.
- */
-
-var oauth = require('oauth');
-var Program = require('./program');
-
-var util = require('./util');
+var oauth   = require('oauth');
+var util    = require('../lib/util');
+var Program = require('../lib/program');
 
 // Common instance
 
@@ -68,12 +63,6 @@ exports.index = function (req, res) {
 exports.live = function (req, res) {
     res.render('play', {
         title: 'Live! - '
-    });
-};
-
-exports.talk = function (req, res) {
-    res.render('play', {
-        title: 'Talk! - '
     });
 };
 
