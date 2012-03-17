@@ -121,8 +121,10 @@ suite('program', function (args) {
         });
     });
     test('getPrograms on Error', function (done) {
+        var self = this;
         TestTCP.empty_port(function (err, port) {
             var program = new Program({
+                redis: 'redis://127.0.0.1:' + self.ports[0],
                 api: {
                     host: '127.0.0.1',
                     port: port,
