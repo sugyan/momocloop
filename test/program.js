@@ -1,7 +1,7 @@
+var assert        = require('assert');
 var child_process = require('child_process');
-var http = require('http');
-var testTCP = require('test-tcp');
-var testCase = require('nodeunit').testCase;
+var http          = require('http');
+var TestTCP       = require('test-tcp');
 var Program = require('../lib/program');
 
 var dummyData = {
@@ -17,10 +17,10 @@ var dummyData = {
     })
 };
 
-module.exports = testCase({
-    setUp: function (callback) {
+suite('program', function (args) {
+    setup(function (done) {
         var self = this;
-        testTCP.empty_ports(2, function (err, ports) {
+        TestTCP.empty_ports(2, function (err, ports) {
             if (err) {
                 throw err;
             }
@@ -36,52 +36,55 @@ module.exports = testCase({
                         res.end(JSON.stringify(dummyData));
                     });
                     api.listen(ports[1], function () {
-                        callback();
+                        done();
                     });
                 }
             });
             redis.stdin.write('port ' + self.ports[0]);
             redis.stdin.end();
         });
-    },
-    tearDown: function (callback) {
+    });
+    teardown(function (done) {
         var self = this;
         self.api.on('close', function () {
             self.redis.on('exit', function () {
-                callback();
+                done();
             });
             self.redis.kill();
         });
         self.api.close();
-    },
-    generateProgram: function (test) {
+    });
+    test('generateProgram', function (done) {
         var self = this;
         var program = new Program({
-            redis: 'redis://127.0.0.1:' + self.ports[0]
+            redis: 'redis://127.0.0.1:' + self.ports[0],
+            lives: {
+                '2': true, '4': true, '6': true, '8': true
+            }
         });
-        test.ok(program, 'program instance');
+        assert.ok(program, 'program instance');
 
-        program._generateProgram('talk', dummyData, function (err, data) {
+        program._generateProgram(dummyData, function (err, data) {
             var obj = {};
-            test.ifError(err);
-            test.equal(data.length, 5, '5 data exist');
+            assert.ifError(err);
+            assert.equal(data.length, program.num, program.num + ' data exist');
             data.forEach(function (e) {
                 obj[JSON.parse(e).id] = true;
             });
-            test.equal(Object.keys(obj).length, 5, '5 unique results');
-            test.done();
+            assert.equal(Object.keys(obj).length, program.num, 'unique results');
+            done();
         });
         // simultaneously generate
-        program._generateProgram('talk', dummyData, function () {});
-        program._generateProgram('talk', dummyData, function () {});
+        program._generateProgram(dummyData, function () {});
+        program._generateProgram(dummyData, function () {});
 
         process.on('uncaughtException', function (err) {
             console.error('%s: %s', err.type, err.message);
-            test.fail('uncaughtException');
-            test.done();
+            assert.fail('uncaughtException');
+            done();
         });
-    },
-    getPrograms: function (test) {
+    });
+    test('getPrograms', function (done) {
         var self = this;
         var program = new Program({
             redis: 'redis://127.0.0.1:' + self.ports[0],
@@ -90,32 +93,35 @@ module.exports = testCase({
                 port: self.ports[1],
                 path: '/',
                 key: ''
+            },
+            lives: {
+                '2': true, '4': true, '6': true, '8': true
             }
         });
-        test.ok(program, 'program instance');
+        assert.ok(program, 'program instance');
 
         // get from api, and return programs
-        program.getPrograms('talk', function (err, data1) {
-            test.ifError(err);
-            test.equal(data1.length, 5, 'got 5 data');
-            test.ok(data1[0].started, 'first data has "started"');
-            program.getPrograms('talk', function (err, data2) {
-                test.deepEqual(data1, data2, 'same data');
-                test.done();
+        program.getPrograms(function (err, data1) {
+            assert.ifError(err);
+            assert.equal(data1.length, program.num, 'got ' + program.num + ' data');
+            assert.ok(data1[0].started, 'first data has "started"');
+            program.getPrograms(function (err, data2) {
+                assert.deepEqual(data1, data2, 'same data');
+                done();
             });
         });
         // simultaneously generate
-        program.getPrograms('talk', function () {});
-        program.getPrograms('talk', function () {});
+        program.getPrograms(function () {});
+        program.getPrograms(function () {});
 
         process.on('uncaughtException', function (err) {
             console.error('%s: %s', err.type, err.message);
-            test.fail('uncaughtException');
-            test.done();
+            assert.fail('uncaughtException');
+            done();
         });
-    },
-    getProgramsOnError: function (test) {
-        testTCP.empty_port(function (err, port) {
+    });
+    test('getPrograms on Error', function (done) {
+        TestTCP.empty_port(function (err, port) {
             var program = new Program({
                 api: {
                     host: '127.0.0.1',
@@ -130,14 +136,14 @@ module.exports = testCase({
             });
             api.listen(port, function () {
                 api.on('close', function () {
-                    test.done();
+                    done();
                 });
-                program.getPrograms('talk', function (err, data) {
-                    test.ok(err);
-                    test.equal(err.message, 'dummy error!', 'error message');
+                program.getPrograms(function (err, data) {
+                    assert.ok(err);
+                    assert.equal(err.message, 'dummy error!', 'error message');
                     api.close();
                 });
             });
         });
-    }
+    });
 });

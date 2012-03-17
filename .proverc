@@ -1,0 +1,2 @@
+--exec './node_modules/.bin/mocha --reporter tap'
+--ext js
