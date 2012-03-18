@@ -16,5 +16,6 @@
         "test-tcp": ">=0.0.4"
     },
     "scripts": {
+        "test": "mocha"
     }
 }

@@ -238,6 +238,6 @@ if (window.location.pathname === '/') {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
+        swfobject.embedSWF('/swf/player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }
