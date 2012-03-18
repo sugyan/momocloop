@@ -1,31 +1,25 @@
 var $ = window.jQuery;
 var io = window.io;
 var twttr = window.twttr;
-var momoclo = window.momoclo = {};
+var Momoclo = window.Momoclo = {};
 
-momoclo.loadProgram = function (type, callback) {
+Momoclo.loadProgram = function (callback) {
     $.ajax({
         url: '/api/program',
         dataType: 'json',
-        data: { type: type },
-        success: function (data) {
-            callback({
-                type: type,
-                data: data
-            });
-        }
+        success: callback
     });
 };
 
-momoclo.connection = io.connect('/connection');
-momoclo.connection.on('connect', function () {
-    momoclo.connection.emit('join', location.pathname);
+Momoclo.connection = io.connect('/connection');
+Momoclo.connection.on('connect', function () {
+    Momoclo.connection.emit('join', location.pathname);
 });
-momoclo.connection.on('connection', function (data) {
+Momoclo.connection.on('connection', function (data) {
     if (window.webkitNotifications && window.webkitNotifications.checkPermission() === 0) {
         var notification = window.webkitNotifications.createNotification('', 'momocloop', JSON.stringify(data));
         notification.show();
-        setTimeout(function () {
+        window.setTimeout(function () {
             notification.cancel();
         }, 3000);
     }
@@ -33,57 +27,47 @@ momoclo.connection.on('connection', function (data) {
 
 if (window.location.pathname === '/') {
     $(function () {
-        var started  = {};
-        var duration = {};
+        var started, duration;
         var toMmSsString = function (seconds) {
             var m = Math.floor(seconds / 60);
             var s = Math.floor(seconds % 60);
             return m + ':' + (s < 10 ? '0' + s : s);
         };
         var setProgramInfo = function (result) {
-            var current = result.data[0];
-            var type = result.type;
-            var div = $('#' + type);
-            started[type]  = current.started;
-            duration[type] = current.lengthInSecond * 1000;
+            var current = result[0];
+            var div = $('.room');
+            started  = current.started;
+            duration = current.lengthInSecond * 1000;
             div.find('.image').empty().append(
-                $('<a>').attr({ href: '/' + type })
+                $('<a>').attr({ href: '/live' })
                     .append($('<img>').attr({ src: current.image2 }))
             );
             div.find('.title').empty().append(
-                $('<a>').attr({ href: '/' + type }).text(current.title)
+                $('<a>').attr({ href: '/live' }).text(current.title)
             );
             div.find('.description').text(current.description);
             div.find('.created').text(current.createdAt);
             div.find('.duration').text(toMmSsString(current.lengthInSecond));
         };
-        $.each(['live', 'talk'], function (i, e) {
-            momoclo.loadProgram(e, setProgramInfo);
-        });
-        setInterval(function () {
+        Momoclo.loadProgram(setProgramInfo);
+        window.setInterval(function () {
             var now = new Date().getTime();
-            $.each(['live', 'talk'], function (i, e) {
-                if (started[e]) {
-                    $('#' + e + ' .nowplaying').text(toMmSsString((now - started[e]) / 1000));
-                    if (now - (started[e] + duration[e]) > 0) {
-                        momoclo.loadProgram(e, setProgramInfo);
-                    }
+            if (started) {
+                $('.room .nowplaying').text(toMmSsString((now - started) / 1000));
+                if (now - (started + duration) > 0) {
+                    Momoclo.loadProgram(setProgramInfo);
                 }
-            });
+            }
         }, 200);
         // connections
-        momoclo.connection.on('connection', function (data) {
-            $.each(['live', 'talk'], function (i, e) {
-                $('#' + e + ' .connections').text(data[e] + '人');
-            });
+        Momoclo.connection.on('connection', function (data) {
+            $('.room .connections').text(data + '人');
         });
     });
 } else {
     $(function () {
-        var started = 0;
-        var duration = 0;
+        var started, duration;
         var myname = 'you';
-        var type = (window.location.pathname === '/live') ? 'live' : 'talk';
         var displayCall = function (data, myself) {
             var message = {
                 a: ['あーりん！',   '#FF00FF'],
@@ -103,16 +87,13 @@ if (window.location.pathname === '/') {
                 'font-size': myself ? 'large' : 'normal'
             }).text('＼' + message[0] + '／');
             $('#display').append(div);
-            setTimeout(function () {
+            window.setTimeout(function () {
                 div.fadeOut('fast', function () { div.remove(); });
             }, 1000);
         };
         var prependMessage = function (data) {
             var date = new Date(data.date);
             var dateStr = [
-                date.getMonth() + 1,
-                date.getDate()
-            ].join('/') + ' ' + [
                 date.getHours()   < 10 ? '0' + date.getHours()   : String(date.getHours()),
                 date.getMinutes() < 10 ? '0' + date.getMinutes() : String(date.getMinutes()),
                 date.getSeconds() < 10 ? '0' + date.getSeconds() : String(date.getSeconds())
@@ -143,8 +124,7 @@ if (window.location.pathname === '/') {
             }
         };
         var setProgramInfo = function (result) {
-            var current = result.data[0];
-
+            var current = result[0];
             var created = new Date(current.createdAt);
             started = current.started;
             duration = current.lengthInSecond * 1000;
@@ -168,12 +148,12 @@ if (window.location.pathname === '/') {
         };
 
         // program info
-        momoclo.loadProgram(type, setProgramInfo);
-        setInterval(function () {
+        Momoclo.loadProgram(setProgramInfo);
+        window.setInterval(function () {
             var now = new Date().getTime();
             if (started > 0) {
                 if (now - (started + duration) > 0) {
-                    momoclo.loadProgram(type, setProgramInfo);
+                    Momoclo.loadProgram(setProgramInfo);
                 }
             }
         }, 200);
@@ -190,8 +170,8 @@ if (window.location.pathname === '/') {
         socket.on('call', displayCall);
 
         // connections
-        momoclo.connection.on('connection', function (data) {
-            $('#connection').text(data[location.pathname.replace(/^\//, '')] + '人');
+        Momoclo.connection.on('connection', function (data) {
+            $('#connection').text(data + '人');
         });
 
         // buttons
@@ -215,8 +195,6 @@ if (window.location.pathname === '/') {
             if (text.length > 0) {
                 if (text.length < 50) {
                     socket.emit('comment', {
-                        vid: momoclo.vid,
-                        time: $('#time').text(),
                         text: input.val()
                     });
                     prependMessage({
