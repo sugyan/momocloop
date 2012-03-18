@@ -5,52 +5,53 @@ html
     title #{title}momocloop (#momoclo ustream archive viewer)
     meta(charset="utf-8")
     link(rel="stylesheet", type="text/css", href="http://fonts.googleapis.com/css?family=Terminal+Dosis:600")
-    link(rel="stylesheet", type="text/css", href="/stylesheets/lib/bootstrap/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css", href="/stylesheets/lib/bootstrap/bootstrap.css")
     link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
     script(type="text/javascript", src="http://platform.twitter.com/anywhere.js?id=#{twitter_api_key}&v=1")
-    script(type="text/javascript", src="/javascripts/lib/jquery-1.6.4.min.js")
+    script(type="text/javascript", src="/javascripts/lib/bootstrap/jquery.js")
     script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-dropdown.js")
-    script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-twipsy.js")
-    script(type="text/javascript", src="/javascripts/lib/bootstrap/bootstrap-popover.js")
     script(type="text/javascript", src="/javascripts/lib/swfobject.js")
     script(type="text/javascript", src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/javascripts/momoclo.js")
     script(type="text/javascript")
       var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-4641008-5']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();
   body
-    div.topbar
-      div.topbar-inner
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
         div.container
           h3
-            a(href="/") momocloop
-          ul.nav.secondary-nav
+            a.brand(href="/") momocloop
+          ul.nav.pull-right
             - if (session.user)
-              li.dropdown(data-dropdown="dropdown")
-                a.dropdown-toggle.login(href="#")
+              li.dropdown
+                a.dropdown-toggle.login(href="#", data-toggle="dropdown")
                   img(src="#{session.user.image}")
                   span @#{session.user.screen_name}
+                  b.caret
                 ul.dropdown-menu
                   li
                     a(href="/signout") Sign out
             - else
               li
                 a.not-login(href="/signin")
-                  img(src="/images/sign-in-with-twitter-d.png")
+                  img(src="/images/bird_16_blue.png")
+                  span Sign in
     header
       - if (locals.isTop)
         div.inner
           div.container
             h1 #momoclo ustream archive viewer
             p
-              a(href="http://www.ustream.tv/channel/momoclotv", target="_blank") USTREAM: momocloTV: 今、一番のかぶきもの「ももいろクローバー」がＬＩＶＥする.
-              のアーカイブ動画を、同時に接続している人どうしが同じ動画の同じタイミングを視聴できるよう同期再生します。
+              a(href="http://www.ustream.tv/channel/momoclotv", target="_blank") http://www.ustream.tv/channel/momoclotv
+              span のアーカイブ動画を、同時に接続している人どうしが同じ動画の同じタイミングを視聴できるよう同期再生します。
     div.container!= body
     footer.footer
       div.container
         div#social
           div#hatena
-            a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
+            a.hatena-bookmark-button(href="http://b.hatena.ne.jp/entry/http://momoclo.no.de/", data-hatena-bookmark-title="momocloop (#momoclo ustream archive viewer)", data-hatena-bookmark-layout="standard", title="このエントリーをはてなブックマークに追加")
               img(src="http://b.st-hatena.com/images/entry-button/button-only.gif", alt="このエントリーをはてなブックマークに追加", width="20", height="20", style="border: none;")
+            script(type="text/javascript", src="http://b.st-hatena.com/js/bookmark_button.js", charset="utf-8", async="async")
           div#twitter
             a.twitter-share-button(href="http://twitter.com/share", data-count="horizontal", data-via="sugyan", data-lang="ja", data-url="http://momoclo.no.de/") ツイート
             script(type="text/javascript", src="http://platform.twitter.com/widgets.js")

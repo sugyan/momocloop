@@ -241,23 +241,3 @@ if (window.location.pathname === '/') {
         swfobject.embedSWF('/swf/' + type + 'Player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }
-
-// hatena bookmark
-$(function () {
-    $.ajax({
-        url: 'http://b.hatena.ne.jp/entry/json/',
-        dataType: 'jsonp',
-        data: {
-            url: 'http://momoclo.no.de'
-        },
-        success: function (data) {
-            $('#hatena').popover({
-                title: function () { return 'はてなブックマーク'; },
-                content: function () {
-                    return data.count + ' bookmarks';
-                },
-                placement: 'above'
-            });
-        }
-    });
-});
