@@ -1,28 +1,35 @@
 div.body
   div.row
-    div#left.span-two-third
+    div#left.span8
       div#player
       div#display
       div#buttons
         button#a.z.btn(style="color:#FF00FF;") あーりん
+          span.keyhint (A)
         button#m.z.btn(style="color:#00FF00;") ももか
+          span.keyhint (M)
         button#k.z.btn(style="color:#FF0000;") かなこ
+          span.keyhint (K)
         button#s.z.btn(style="color:#FFFF00;") しおりん
+          span.keyhint (S)
         button#r.z.btn(style="color:#800080;") れにちゃん
+          span.keyhint (R)
         button#h.btn(style="color:#0000FF;display:none;") あかりん
         br
         button#u.z.btn(style="color:#404040;") うりゃ
+          span.keyhint (U)
         button#o.z.btn(style="color:#404040;") おい
+          span.keyhint (O)
         button#z.z.btn(style="color:#404040;display:none;")
       div#info
       div#title
       div#description
       div#created
-    div#right.span-one-third
+    div#right.span4
       div#comments
         div 接続:
           span#connection
         form#comment
-          input#message(type="text")
-          a#submit.btn.small(href="#") 送信
+          input#message.span3(type="text")
+          input.span1(type="submit", value="送信")
         dl#messages

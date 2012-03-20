@@ -184,10 +184,6 @@ if (window.location.pathname === '/') {
             }
         });
         // form
-        $('#comments a#submit').click(function (e) {
-            e.preventDefault();
-            $('#comment').submit();
-        });
         $('#comments').submit(function (e) {
             e.preventDefault();
             var input = $('#message');
@@ -216,6 +212,6 @@ if (window.location.pathname === '/') {
         $(document).bind('keyup', keyboardCommand);
 
         // swf
-        swfobject.embedSWF('/swf/player.swf', 'player','530', '400', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
+        swfobject.embedSWF('/swf/player.swf', 'player','620', '460', '11.0.0', '/swf/expressInstall.swf', {}, {}, {});
     });
 }

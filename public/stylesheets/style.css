@@ -95,7 +95,12 @@ div#left button {
     font-weight: bold;
 }
 div#left button.z {
-    width: 100px;
+    width: 115px;
+}
+div#left button.z .keyhint {
+    color: gray;
+    margin-left: 5px;
+    text-shadow: none;
 }
 div#info {
     margin-top: 10px;
@@ -105,15 +110,11 @@ span#connection {
     margin-left: 5px;
     color: purple;
 }
-div#comments input#message {
-    width: 240px;
-}
-div#comments a#submit {
-    margin-left: 8px;
-    height: 15px;
+form#comment {
+    margin-bottom: 0;
 }
 dl#messages {
-    height: 550px;
+    height: 600px;
     width: auto;
     margin-top: 10px;
     overflow: auto;
